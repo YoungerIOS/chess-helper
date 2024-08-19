@@ -147,9 +147,13 @@ def pieces_recognition(img, gray):
             # 根据游戏平台选择对比图片
             platform = ''
             path_str = ''
-            with open('./app/json/platform.json', 'r') as file:
-                data = json.load(file)
-                platform = data["platform"]
+            try:
+                with open('./app/json/platform.json', 'r') as file:
+                    data = json.load(file)
+                    platform = data["platform"]
+            except FileNotFoundError:
+                platform = 'TT'
+                
             if platform == 'JJ':
                 path_str = './app/images/jj'
             else:
