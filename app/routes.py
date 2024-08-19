@@ -146,4 +146,6 @@ def change_platform():
     data = {'platform':platfm}
     with open('./app/json/platform.json', 'w') as file:
         json.dump(data, file)
+    send_engine_ucinewgame()
+    return jsonify({"message": data})
 
