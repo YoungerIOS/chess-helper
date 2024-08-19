@@ -15,7 +15,10 @@ def init_engine():
         parameter = data
     except FileNotFoundError:
         print('文件未找到')
-        parameter = {'current': 'depth', 'value': {'depth': '20', 'movetime': '3000'}}
+        parameter = {
+                     'current': 'depth', 
+                     'value': {'depth': '20', 'movetime': '3000'}
+                    }
         save_parameters()
 
     # 准备

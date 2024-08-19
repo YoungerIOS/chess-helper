@@ -144,7 +144,17 @@ def pieces_recognition(img, gray):
                 # print(f"Determined color for slice: {color}")
             # print(f"棋子颜色为{idx}: {color}")
 
-            best_match, best_score = find_best_match(img[y1:y2+1,x1:x2+1], './app/images')  
+            # 根据游戏平台选择对比图片
+            platform = ''
+            path_str = ''
+            with open('./app/json/platform.json', 'r') as file:
+                data = json.load(file)
+                platform = data["platform"]
+            if platform == 'JJ':
+                path_str = './app/images/jj'
+            else:
+                path_str = './app/images/tiantian'
+            best_match, best_score = find_best_match(img[y1:y2+1,x1:x2+1], path_str)  
             pieces.append((x, y, r, utils.cut_substring(best_match)))
             # print(f"棋子圆心与半径:({x},{y}), {r},Best match: {utils.cut_substring(best_match)} score {best_score}")
 

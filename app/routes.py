@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import requests
 import os
+import json
 from. import engine
 from. import main
 
@@ -139,13 +140,10 @@ def change_parameter():
     print(f'修改后的参数:{engine.parameter}')
     return jsonify({"message": engine.parameter})
 
-@app.route('/send_engine_stop')
-def send_engine_stop():
-    command = 'stop'
-    engine.pikafish.stdin.write(f'{command}\n')    
-    engine.pikafish.stdin.flush() 
-
-    output = engine.pikafish.stdout.readline().strip()
-
-    return output
+@app.route('/change_platform', methods=['POST'])
+def change_platform(): 
+    platfm = request.form.get('platform', 'TT')
+    data = {'platform':platfm}
+    with open('./app/json/platform.json', 'w') as file:
+        json.dump(data, file)
 

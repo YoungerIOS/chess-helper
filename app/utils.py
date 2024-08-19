@@ -179,7 +179,7 @@ def convert_move_to_chinese(move, board_array, is_red):
     # print(f'起始列{start_col}, 起始行{start_row}, 最终列{end_col}, 最终行{end_row}') 
       
     # 从棋局数组中获取棋子类型  
-    piece_type = board_array[9 - start_row][start_col]  
+    piece_type = board_array[9 - start_row][start_col]  # 棋子row索引总是从上到下0到9,而引擎纵坐标是9到0
     piece_name = PIECE_CODES[piece_type]  
   
     # 判断移动类型（进、退、平）和构建棋谱描述
@@ -188,16 +188,16 @@ def convert_move_to_chinese(move, board_array, is_red):
     crossed_row  = CHINESE_NUM[abs(end_row - start_row)] if is_red else abs(end_row - start_row)
 
     name = piece_name
-    # 特殊情况: 如果同一列上有两个相同的棋子(车车,炮炮,兵兵)(同列有2个以上兵的情况暂不考虑)
-    if piece_type in ['r', 'R', 'c', 'C', 'p', 'P']:
+    # 特殊情况: 如果同一列上有两个相同的棋子(车车,马马,炮炮,兵兵)(同列有2个以上兵的情况暂不考虑)
+    if piece_type in ['r', 'R', 'n', 'N', 'c', 'C', 'p', 'P']:
         # 寻找相同棋子,返回首个找到的元素索引
-        col_of_board = [row[start_col] for row in board_array]
-        if col_of_board.count(piece_type) > 1:
-            if col_of_board.index(piece_type) == start_row:
+        col_of_board = [row[start_col] for row in board_array]#遍历出要走的棋子所在的列上的所有棋子
+        if col_of_board.count(piece_type) > 1: # 某类棋子数量大于1
+            if col_of_board.index(piece_type) == 9 - start_row: 
             # 有2个同名棋子, index返回首次找到的,与目标棋子对比可以确定前后关系
-                name = "后"
+                name = "前" if is_red else "后"
             else:
-                name = "前"
+                name = "后" if is_red else "前"
             # 第二个字改为棋子名称
             start_colunm = piece_name
 
