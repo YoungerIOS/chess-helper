@@ -78,7 +78,7 @@ def cut_substring(string):
 # 判断某一方有没有走子
 def check_repeat_position(array1, array2, is_red):
     if not array2:
-        return True
+        return False
     
     letter_change = False
     # upper_case_loss = False
@@ -97,8 +97,9 @@ def check_repeat_position(array1, array2, is_red):
     # upper_case_count2 = sum(1 for row in array2 for item in row if item.isupper())
     # if upper_case_count1 > upper_case_count2:
     #     upper_case_loss = True
-
-    return letter_change
+    
+    # 字母有变化即不是重复局面,取反返回
+    return not letter_change
 
 # 棋子数组转为FEN棋局字符串(不含轮哪方走棋信息)
 def switch_to_fen(array, is_red):

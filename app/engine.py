@@ -8,31 +8,20 @@ def init_engine():
     pikafish_command = './app/Pikafish/src/pikafish'
     pikafish = subprocess.Popen(pikafish_command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-    global parameter
-    try:
-        with open('./app/json/params.json', 'r') as file:
-            data = json.load(file)
-        parameter = data
-    except FileNotFoundError:
-        print('文件未找到')
-        parameter = {
-                     'current': 'depth', 
-                     'value': {'depth': '20', 'movetime': '3000'}
-                    }
-        save_parameters()
-
     # 准备
     uci(pikafish) # 可以用全局变量,也可以用传参
     isready()
 
-def save_parameters():
-    with open('./app/json/params.json', 'w') as file:
-        json.dump(parameter, file)
-
-def get_best_move(fen, side):
+def get_best_move(fen, side, parameter):
     fen_string = fen + ' ' + ('w' if side else 'b')
 
-    lines, best_move = go(fen_string, parameter['current'], parameter['value'][parameter['current']])
+    param = parameter['goParam']
+    value = parameter[param]
+    if param is None or param == '' or value is None or value == '':
+        param = 'depth'
+        value = '20'
+
+    lines, best_move = go(fen_string, param, value)
 
     if not lines:  
         best_move = "No output received within 40 seconds. code:408"  # 使用408 Request Timeout作为HTTP状态码  

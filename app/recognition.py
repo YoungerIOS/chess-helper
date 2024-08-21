@@ -14,7 +14,7 @@ def pre_processing_image(img_path):
     img = cv2.imread(img_path)  
     if img is None:  
         print("Error: Image not found.")  
-        return  
+        return  None, None
     # print(f"图片宽高是:{img.shape[1]} x {img.shape[0]}")
     # 灰度化  
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) 
@@ -104,7 +104,7 @@ def board_recognition(img, gray):
     return x_array, y_array
 
 # 识别棋子
-def pieces_recognition(img, gray):
+def pieces_recognition(img, gray, param):
 
     # 模糊处理，不管是用mediaBlur还是GaussianBlur, 实际发现这不是必要的。用霍夫圆检测，直接使用灰度图也一样能找出来，可能棋子的圆相对规范的原因？
     #blur = cv2.medianBlur(gray, 5)
@@ -145,15 +145,8 @@ def pieces_recognition(img, gray):
             # print(f"棋子颜色为{idx}: {color}")
 
             # 根据游戏平台选择对比图片
-            platform = ''
+            platform = param['platform']
             path_str = ''
-            try:
-                with open('./app/json/platform.json', 'r') as file:
-                    data = json.load(file)
-                    platform = data["platform"]
-            except FileNotFoundError:
-                platform = 'TT'
-                
             if platform == 'JJ':
                 path_str = './app/images/jj'
             else:
