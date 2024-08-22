@@ -1,6 +1,8 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 Pikafish/
+app/uploads/
+
 *.py[cod]
 *$py.class
 
