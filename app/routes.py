@@ -71,11 +71,11 @@ def home():
 #     output = engine.isready()
 #     return jsonify({"output": output}) if output else jsonify({"error": "No output in 0.5 second"}) 
 
-# @app.route('/send_engine_ucinewgame')
-# # 向引擎发送 ucinewgame 命令
-# def send_engine_ucinewgame():
-#     output = engine.ucinewgame()
-#     return jsonify({"message": output})
+@app.route('/send_engine_ucinewgame')
+# 向引擎发送 ucinewgame 命令
+def send_engine_ucinewgame():
+    output = engine.ucinewgame()
+    return jsonify({"message": output})
 
 # @app.route('/get_best_move', methods=['POST'])
 # def get_best_move():
