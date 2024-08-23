@@ -23,7 +23,7 @@ def main(img_path, param):
 
     # 检查局面是否变化
     global last_position
-    if param['autoModel'] == 'true':
+    if param['autoModel'] == 'On':
         if utils.check_repeat_position(position, last_position, is_red):
             return 'repeat'
     last_position = position

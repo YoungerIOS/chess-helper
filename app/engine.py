@@ -10,6 +10,8 @@ def init_engine():
 
     # 准备
     uci(pikafish) # 可以用全局变量,也可以用传参
+    send_command('setoption name Threads value 2', 1, 'threads')
+    setoption('setoption name Hash value 256')
     isready()
 
 def get_best_move(fen, side, parameter):
@@ -35,6 +37,23 @@ def get_best_move(fen, side, parameter):
 
     return best_move, fen_string
 
+def send_command(cmd, interval, keyword):
+    command = cmd
+    pikafish.stdin.write(f'{command}\n')    
+    pikafish.stdin.flush() 
+    lines = []
+    start_time = time.time()
+    while True:  
+        # 读取一行输出（包括换行符），然后去除换行符  
+        output = pikafish.stdout.readline().strip()  
+        if (time.time() - start_time > interval):  # 如果超过指定时间，则退出循环  
+            break  
+        if output:  
+            lines.append(output)  # 将非空输出添加到列表中  
+            if keyword in output:  # 如果找到 输出关键字，则立即退出循环  
+                break  
+    return lines
+
 def uci(engine):
     command = 'uci'
     engine.stdin.write(f'{command}\n')    
@@ -59,6 +78,13 @@ def isready():
     time.sleep(0.5)
     output = pikafish.stdout.readline().strip()
     return output
+
+def setoption(cmd):
+    command = cmd
+    pikafish.stdin.write(f'{command}\n')    
+    pikafish.stdin.flush() 
+    time.sleep(0.2)
+    return
 
 def ucinewgame():
     """
