@@ -74,10 +74,12 @@ chess-helper/
 
 ## 许可证
 
-MIT License
+MulanPSL-2.0 license
 
 ## 致谢
 
 - Pikafish引擎开发团队
 - OpenCV社区
 - 所有贡献者 
+- VTEXS
+- www.vtexs.com
