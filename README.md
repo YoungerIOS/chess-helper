@@ -74,7 +74,7 @@ chess-helper/
 
 ## 许可证
 
-MulanPSL-2.0 license
+MIT license
 
 ## 致谢
 
